@@ -1,0 +1,191 @@
+﻿@page
+@model Admin.EndPoint.Pages.Discounts.CreateModel
+@{
+}
+
+@using Domain.Discounts;
+<link href="~/MdPersianDateTimePicker/jquery.md.bootstrap.datetimepicker.style.css" rel="stylesheet" />
+<link href="~/lib/select2/css/select2.css" rel="stylesheet" />
+@* تم آنلاین برای سلکت2 میباشد  *@
+<link href="https://raw.githack.com/ttskch/select2-bootstrap4-theme/master/dist/select2-bootstrap4.css" rel="stylesheet">
+
+
+
+<div class="col-lg-12 col-12 layout-spacing">
+    <div class="statbox widget box box-shadow">
+        <div class="widget-header">
+            <div class="row">
+                <div class="col-xl-12 col-md-12 col-sm-12 col-12">
+                    <h4> تخفیف جدید  ثبت کنید  </h4>
+                </div>
+            </div>
+        </div>
+        <div class="widget-content widget-content-area">
+            <form asp-page="create" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="row">
+                    <div class="form-group  col-md-4">
+                        <label asp-for="model.Name"> </label>
+                        <input type="text" class="form-control" asp-for="model.Name">
+                        <span asp-validation-for="model.Name" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label asp-for="model.RequiresCouponCode"> </label>
+                        <input type="checkbox" class="form-control" asp-for="model.RequiresCouponCode">
+                        <span asp-validation-for="model.RequiresCouponCode" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label asp-for="model.CouponCode"> </label>
+                        <input type="text" class="form-control" asp-for="model.CouponCode">
+                        <span asp-validation-for="model.CouponCode" class="text-danger"></span>
+                    </div>
+                </div>
+                @*  دوتا تاریخ رو دریافت میکنیم و از دیت تایم پیکر برای انتخاب زمان کمک میگیریم  *@
+                <div class="row">
+                    <div class="form-group  col-md-6">
+                        <label asp-for="model.StartDate"> </label>
+                        <input type="text" class="form-control" asp-for="model.StartDate">
+                        <span asp-validation-for="model.StartDate" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label asp-for="model.EndDate"> </label>
+                        <input type="text" class="form-control" asp-for="model.EndDate">
+                        <span asp-validation-for="model.EndDate" class="text-danger"></span>
+                    </div>
+                </div>
+                @* اطلاعات مبلغ تخفیف و درصد تخفیف را از کاربر اخذ میکنیم  *@
+                <div class="row">
+                    <div class="form-group col-md-2">
+                        <label asp-for="model.UsePercentage"> </label>
+                        <input class="form-control" asp-for="model.UsePercentage">
+                        <span asp-validation-for="model.UsePercentage" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label asp-for="model.DiscountPercentage"> </label>
+                        <input type="text" class="form-control" asp-for="model.DiscountPercentage">
+                        <span asp-validation-for="model.DiscountPercentage" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label asp-for="model.DiscountAmount"> </label>
+                        <input type="text" class="form-control" asp-for="model.DiscountAmount">
+                        <span asp-validation-for="model.DiscountAmount" class="text-danger"></span>
+                    </div>
+                </div>
+                @* با کمک این سلکت دسترسی اینام ها را اخذ میکنیم پس یوزینگ دامین لازم است *@
+                <div class="row">
+                    <div class="form-group  col-md-4">
+                        <label asp-for="model.DiscountTypeId"> </label>
+                        <select asp-for="model.DiscountTypeId" class="form-control" asp-items="@Html.GetEnumSelectList<DiscountType>()"></select>
+                        <span asp-validation-for="model.DiscountTypeId" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label asp-for="model.DiscountLimitationId"> </label>
+                        <select asp-for="model.DiscountLimitationId" class="form-control" asp-items="@Html.GetEnumSelectList<DiscountLimitationType>()"></select>
+
+                        <span asp-validation-for="model.DiscountLimitationId" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label asp-for="model.LimitationTimes"> </label>
+                        <input type="text" class="form-control" asp-for="model.LimitationTimes">
+                        <span asp-validation-for="model.LimitationTimes" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group  col-md-4">
+                        <label> محصولات را انتخاب کنید</label>
+                        @* این سلکت مهم است و کاربر باید بتواند
+                            در کاتالوگ آیتم های مختلف جستجو و در قالب یک لیست آنها را ارسال کند *@
+                        <select class="form-control" asp-for="model.appliedToCatalogItem">
+                        </select>
+                    </div>
+                </div>
+
+                <input type="submit" name="time" value="ثبت" class="btn btn-primary">
+                <a asp-page="index" class="btn btn-info">برگشت به لیست</a>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    @* کتابخانه ولیدیشن ها را اضافه میکنیم  *@
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+    @*  *@
+    <script src="~/MdPersianDateTimePicker/jquery.md.bootstrap.datetimepicker.js"></script>
+
+    <script>
+        ///آیدی اون تکست باکسی رو که دیت تایم پیکر قرار میدیم رو بعد از دلار قرار میدیم
+        $('#model_StartDate').MdPersianDateTimePicker({
+            targetTextSelector: '#model_StartDate',
+            toDate: true,
+            groupId: 'rangeSelector1',
+            placement: 'top',
+            enableTimePicker: true,
+            dateFormat: 'yyyy-MM-dd HH:mm:ss',
+            textFormat: 'yyyy-MM-dd HH:mm:ss',
+            ///مدال مد ترو باشد به طور مدال باز میشود
+            modalMode: true
+        });
+
+        $('#model_EndDate').MdPersianDateTimePicker({
+            targetTextSelector: '#model_EndDate',
+            toDate: true,
+            groupId: 'rangeSelector1',
+            placement: 'top',
+            enableTimePicker: true,
+            dateFormat: 'yyyy-MM-dd HH:mm:ss',
+            textFormat: 'yyyy-MM-dd HH:mm:ss',
+            modalMode: true
+        });
+    </script>
+
+    @* سلکت2 و نمایش لیست کاتالوگ آیتم ها (پروداکت ها)در این پلاگین
+        نیاز به یک ای پی آی دارد که قابلیت سرچ هم به ما بدهد *@
+    <script src="~/lib/select2/js/select2.js"></script>
+    <script>
+        $("#model_appliedToCatalogItem").select2({
+            ///تکستی که به کاربر نمایش میدهیم
+            placeholder: "محصول را جستجو وانتخاب کنید",
+            ///کل سلکت های انجام شده را کلیر کند
+            allowClear: true,
+            ///چند گزینه انتخاب شود
+            multiple: true,
+            ///انتخاب ها را همانند تگ به ما نمایش دهد
+            tags: true,
+            ///تگ ها را به وسیله کاما از هم جدا شود
+            tokenSeparators: [',', ' '],
+            ///تم از بوت استرپ 4 استفاده کند
+            theme: "bootstrap4",
+            ///ایجکس را فعال میکنیم تا به ای پی آی نوشته شده دیتا را ارسال کنیم
+            ajax: {
+                ///آدرس ای پی آی
+                url: "/api/DiscountApi/SearchCatalogItem",
+                ///کانتنت تایپ جیسون است
+                contentType: "application/json; charset=utf-8",
+                ///دیتایی که داریم ارسال میکنیم
+                data: function (params) {
+                    var query =
+                    {
+                        ///دقیقا همین نام ترم در کنترلر دیسکانت ای پی آی دریافت میشود
+                        term: params.term,
+                    };
+                    return query;
+                },
+                ///سپس یک ریزالت دریافت میکنیم که یک آیدی و یک نام دارد
+                processResults: function (result) {
+                    return {
+                        results: $.map(result, function (item) {
+                            return {
+                                id: item.id,
+                                text: item.name
+                            };
+                        }),
+                    };
+                }
+            }
+        });
+    </script>
+
+}
